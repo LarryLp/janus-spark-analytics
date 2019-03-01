@@ -1,0 +1,8 @@
+server:
+  #  softNofileLimit: 1000
+  #  hardNofileLimit: 1000
+  applicationConnectors:
+  - type: http
+    port: 8080
+
+graphConfigPath: /home/twilmes/Downloads/janusgraph-0.3.0-hadoop2/conf/hadoop-graph/read-cassandra.properties
