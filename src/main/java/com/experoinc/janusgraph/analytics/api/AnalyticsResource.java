@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
 @Path("/analytics")
 @Produces(MediaType.APPLICATION_JSON)
 public class AnalyticsResource {
-    private ExecutorService myExecutor = Executors.newCachedThreadPool(); 
+    private ExecutorService myExecutor = Executors.newCachedThreadPool();
     private final GraphTraversalSource g;
 
     public AnalyticsResource(final String graphConfigPath) {

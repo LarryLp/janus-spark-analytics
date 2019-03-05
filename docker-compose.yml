@@ -1,0 +1,56 @@
+# use exposed ports in the 60x range, so it can easily be run in parallel with
+# the existing weaviate docker-compose setup, which uses ports in th 80xx range
+---
+version: "3"
+services:
+  analytics:
+    build: "."
+    volumes:
+      - ./analytics.yml:/analytics/analytics.yml
+    ports:
+      - "6080:8080" 
+    depends_on:
+      - janus
+      - etcd
+  janus:
+    image: creativesoftwarefdn/janusgraph-docker:0.3.1
+    depends_on:
+      - db
+      - index
+    ports:
+     - "6182:8182"
+     - "6184:8184"
+    environment:
+     - DEV_MODE=true
+    volumes:
+      - ./tools/dev/janusgraph/spark-cassandra.properties:/janusgraph-config/spark-cassandra.properties
+      - ./tools/dev/janusgraph/janusgraph.properties:/janusgraph-config/janusgraph.properties
+      - ./tools/dev/janusgraph/gremlin-server.yaml:/janusgraph-config/gremlin-server.yaml
+  db:
+    image: scylladb/scylla:2.0.1
+  index:
+    image: elasticsearch:5
+  etcd:
+    image: gcr.io/etcd-development/etcd:v3.3.8
+    ports:
+      - "6379:2379"
+    entrypoint: /usr/local/bin/etcd
+    command: 
+      - "--name"
+      - "s1"
+      - "--data-dir"
+      - "/etcd-data"
+      - "--listen-client-urls"
+      - "http://0.0.0.0:2379"
+      - "--advertise-client-urls"
+      - "http://0.0.0.0:2379"
+      - "--listen-peer-urls"
+      - "http://0.0.0.0:2380"
+      - "--initial-advertise-peer-urls"
+      - "http://0.0.0.0:2380"
+      - "--initial-cluster"
+      - "s1=http://0.0.0.0:2380"
+      - "--initial-cluster-token"
+      - "tkn"
+      - "--initial-cluster-state"
+      - "new"
