@@ -12,6 +12,7 @@ services:
     depends_on:
       - janus
       - etcd
+      - spark-master
   janus:
     image: creativesoftwarefdn/janusgraph-docker:0.3.1
     depends_on:
@@ -54,3 +55,15 @@ services:
       - "tkn"
       - "--initial-cluster-state"
       - "new"
+  spark-master:
+    image: creativesoftwarefdn/spark-janusgraph-master:2.2.2-janus-0.3.1
+    ports:
+      - "6081:8080" # web-ui
+  spark-worker:
+    image: creativesoftwarefdn/spark-janusgraph-worker:2.2.2-janus-0.3.1
+    ports:
+      - "6082:8080" # web-ui
+    environment:
+      SPARK_MASTER: "spark://spark-master:7077"
+    depends_on:
+      - spark-master

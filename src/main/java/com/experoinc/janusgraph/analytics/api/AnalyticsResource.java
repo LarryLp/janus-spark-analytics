@@ -1,6 +1,13 @@
 package com.experoinc.janusgraph.analytics.api;
 
 import com.codahale.metrics.annotation.Timed;
+import com.experoinc.janusgraph.analytics.etcd.EtcdStorage;
+import com.experoinc.janusgraph.analytics.etcd.StorageException;
+import com.experoinc.janusgraph.analytics.model.Result;
+import com.experoinc.janusgraph.analytics.model.Status;
+import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+
 import org.apache.tinkerpop.gremlin.groovy.jsr223.GremlinGroovyScriptEngine;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
@@ -22,15 +29,17 @@ import java.util.concurrent.Executors;
 public class AnalyticsResource {
     private ExecutorService myExecutor = Executors.newCachedThreadPool();
     private final GraphTraversalSource g;
+    private final EtcdStorage storage;
 
-    public AnalyticsResource(final String graphConfigPath) {
+    public AnalyticsResource(final String graphConfigPath, final String etcdOrigin) {
       g = GraphFactory.open(graphConfigPath)
         .traversal().withComputer(SparkGraphComputer.class);
+        this.storage = new EtcdStorage(etcdOrigin);
     }
 
-    void storeRunning() {
-      // update etcd
-      // set status to running
+    void storeRunning() throws StorageException {
+        Result res = new Result("foo", Status.INPROGRESS, null);
+        this.storage.store(res);
     }
 
     void storeSuccess() {
@@ -46,28 +55,39 @@ public class AnalyticsResource {
     }
 
     void runQueryAsync(final String query) {
-      myExecutor.execute(new Runnable() {
-        public void run() {
-          GremlinGroovyScriptEngine gremlinGroovyScriptEngine = new GremlinGroovyScriptEngine();
-          SimpleBindings bindings = new SimpleBindings();
-          bindings.put("g", g);
-
-          storeRunning();
+      myExecutor.execute(() -> {
+        GremlinGroovyScriptEngine gremlinGroovyScriptEngine = new GremlinGroovyScriptEngine();
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.put("g", g);
 
           try {
-            final GraphTraversal traversal = (GraphTraversal) gremlinGroovyScriptEngine.eval(query, bindings);
-            traversal.next();
-            storeSuccess();
-          } catch(Exception e) {
-            storeFailure(e);
+              storeRunning();
+          } catch (StorageException e) {
+              e.printStackTrace();
           }
+
+          try {
+          final GraphTraversal traversal = (GraphTraversal) gremlinGroovyScriptEngine.eval(query, bindings);
+          Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+          Object results = traversal.toList();
+          String jsonified = gson.toJson(results);
+          System.out.println("\n\n\n Done:");
+          System.out.println("JSON:");
+          System.out.println(jsonified);
+          System.out.println("Results:");
+          System.out.println(results);
+          storeSuccess();
+        } catch(Exception e) {
+          System.out.println("\n\n\n Failure: " + e.getMessage());
+          e.printStackTrace();
+          storeFailure(e);
         }
       });
     }
 
     @GET
     @Timed
-    public Response submitQuery(@QueryParam("query") String query) throws Exception {
+    public Response submitQuery(@QueryParam("query") String query) {
       runQueryAsync(query);
       return Response.status(Response.Status.ACCEPTED).build();
     }

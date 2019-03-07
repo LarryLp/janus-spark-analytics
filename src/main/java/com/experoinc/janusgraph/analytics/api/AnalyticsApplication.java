@@ -21,7 +21,7 @@ public class AnalyticsApplication extends Application<AnalyticsConfiguration> {
     @Override
     public void run(AnalyticsConfiguration configuration,
                     Environment environment) {
-        final AnalyticsResource resource = new AnalyticsResource(configuration.getGraphConfigPath());
+        final AnalyticsResource resource = new AnalyticsResource(configuration.getGraphConfigPath(), configuration.getEtcdOrigin());
         environment.jersey().register(resource);
     }
 
