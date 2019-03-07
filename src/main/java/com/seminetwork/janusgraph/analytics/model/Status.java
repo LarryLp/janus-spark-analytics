@@ -1,4 +1,4 @@
-package com.experoinc.janusgraph.analytics.model;
+package com.seminetwork.janusgraph.analytics.model;
 
 public enum Status {
     INPROGRESS,

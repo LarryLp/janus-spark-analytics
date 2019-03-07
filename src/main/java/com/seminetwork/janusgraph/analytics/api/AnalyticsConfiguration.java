@@ -1,4 +1,4 @@
-package com.experoinc.janusgraph.analytics.api;
+package com.seminetwork.janusgraph.analytics.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;

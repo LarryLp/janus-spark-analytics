@@ -1,6 +1,5 @@
-package com.experoinc.janusgraph.analytics.model;
+package com.seminetwork.janusgraph.analytics.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;

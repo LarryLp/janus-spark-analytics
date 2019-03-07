@@ -1,7 +1,7 @@
-package com.experoinc.janusgraph.analytics.etcd;
+package com.seminetwork.janusgraph.analytics.storage;
 
 
-import com.experoinc.janusgraph.analytics.model.Result;
+import com.seminetwork.janusgraph.analytics.model.Result;
 import io.etcd.jetcd.ByteSequence;
 import io.etcd.jetcd.Client;
 import io.etcd.jetcd.KV;
@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.google.common.base.Charsets.UTF_8;
 
-public class EtcdStorage {
+public class EtcdStorage implements Storage {
     private KV kvClient;
 
     public EtcdStorage(String discoveryUrl) {
@@ -25,15 +25,15 @@ public class EtcdStorage {
         try {
             value = ByteSequence.from(res.toJson().getBytes());
         } catch (IOException e) {
-            throw new StorageException(String.format("could not convert results to json sending off to etcd", key), e);
+            throw new StorageException(String.format("could not convert results to json sending off to storage", key), e);
         }
 
         try {
             this.kvClient.put(key, value).get();
         } catch (InterruptedException e) {
-            throw new StorageException(String.format("could not put key '%s' to etcd", key), e);
+            throw new StorageException(String.format("could not put key '%s' to storage", key), e);
         } catch (ExecutionException e) {
-            throw new StorageException(String.format("could not put key '%s' to etcd", key), e);
+            throw new StorageException(String.format("could not put key '%s' to storage", key), e);
         }
 
     }
