@@ -25,7 +25,8 @@ public class AnalyticsConfiguration extends Configuration {
 
     @Valid
     @NotNull
-    private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+    @JsonProperty
+    private JerseyClientConfiguration jerseyClient;
 
     @JsonProperty("jerseyClient")
     public JerseyClientConfiguration getJerseyClientConfiguration() {

@@ -9,3 +9,8 @@ graphConfigPath: ./spark-cassandra.properties
 etcdConfiguration:
   host: etcd
   port: 2379
+jerseyClient:
+  # turn off all compression, as etcd does not seem happy with it
+  gzipEnabled: false
+  gzipEnabledForRequests: false
+  chunkedEncodingEnabled: false

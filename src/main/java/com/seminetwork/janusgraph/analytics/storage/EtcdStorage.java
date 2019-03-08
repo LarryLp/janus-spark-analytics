@@ -23,7 +23,9 @@ public class EtcdStorage implements Storage {
                 request("applicaction/json").
                 post(Entity.json(body));
         if (response.getStatus() != 200) {
-            throw new Exception("wrong status code, expected 200, got: " + response.getStatus());
+            String responseBody = response.readEntity(String.class);
+            throw new Exception("wrong status code, expected 200, got: " + response.getStatus() +
+                    " with body: " + responseBody);
         }
     }
 
