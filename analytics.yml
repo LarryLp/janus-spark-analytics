@@ -6,4 +6,6 @@ server:
     port: 8080
 
 graphConfigPath: ./spark-cassandra.properties
-etcdOrigin: http://storage:2379
+etcdConfiguration:
+  host: etcd
+  port: 2379
