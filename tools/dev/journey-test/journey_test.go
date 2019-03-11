@@ -46,7 +46,7 @@ var expectedResult = []interface{}{
 }
 
 func TestAnalyticsAPI(t *testing.T) {
-	u, _ := url.Parse("http://localhost:6080")
+	u, _ := url.Parse("http://analytics:8080")
 	id, err := uuid.NewV4()
 	if err != nil {
 		t.Fatalf("could not generate id: %v", err)
@@ -63,7 +63,7 @@ func TestAnalyticsAPI(t *testing.T) {
 		t.Fatalf("scheduling failed: %v", err)
 	}
 
-	etcd, err := clientv3.NewFromURL("http://localhost:6379")
+	etcd, err := clientv3.NewFromURL("http://etcd:2379")
 	if err != nil {
 		t.Fatalf("could not create etcd client: %v", err)
 	}

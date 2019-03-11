@@ -34,7 +34,7 @@ func check(err error) {
 }
 
 func main() {
-	client = http_client.NewClient("http://localhost:6182")
+	client = http_client.NewClient("http://janus:8182")
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 	waitForStartup(ctx)

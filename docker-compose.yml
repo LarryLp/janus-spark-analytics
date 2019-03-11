@@ -1,10 +1,12 @@
 # use exposed ports in the 60x range, so it can easily be run in parallel with
 # the existing weaviate docker-compose setup, which uses ports in th 80xx range
 ---
-version: "3"
+version: "3.4"
 services:
   analytics:
-    build: "."
+    build: 
+      context: "."
+      target: app
     volumes:
       - ./analytics.yml:/analytics/analytics.yml
     ports:
@@ -67,3 +69,11 @@ services:
       SPARK_MASTER: "spark://spark-master:7077"
     depends_on:
       - spark-master
+  goenv:
+    # used to run the golang based importer script and e2e tests
+    # verifying the golang-based client
+    build: 
+      context: "."
+      target: goenv
+    volumes:
+      - ./:/build-env
