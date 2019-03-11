@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
+	"os"
+	"time"
 
 	"github.com/creativesoftwarefdn/weaviate/gremlin"
 	schema "github.com/creativesoftwarefdn/weaviate/gremlin/gremlin_schema_query"
@@ -32,14 +35,26 @@ func check(err error) {
 
 func main() {
 	client = http_client.NewClient("http://localhost:6182")
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+	waitForStartup(ctx)
 	addProperties()
 }
 
 func addProperties() {
+	fmt.Println("Add label 'person'")
 	addVertexLabel()
+
+	fmt.Println("Add property 'name'")
 	addProperty("name", schema.DATATYPE_STRING)
+
+	fmt.Println("Add index for property 'name'")
 	addIndex("name")
+
+	fmt.Println("Add property 'age' and extend index")
 	addIndexedProperty("age", schema.DATATYPE_LONG)
+
+	fmt.Println("Add property 'networth' and extend index")
 	addIndexedProperty("networth", schema.DATATYPE_LONG)
 	importDemoSet()
 }
@@ -80,7 +95,6 @@ func importDemoSet() {
 	q := gremlin.New().Raw("g")
 
 	for _, p := range demoData {
-		fmt.Printf("importing %v\n", p)
 		q = q.
 			AddV("person").
 			StringProperty("name", p.name).
@@ -88,6 +102,32 @@ func importDemoSet() {
 			Float64Property("networth", p.networth)
 	}
 
+	fmt.Println("Import demo set.")
 	_, err := client.Execute(q)
 	check(err)
+}
+
+func waitForStartup(ctx context.Context) {
+	fmt.Printf("Waiting for Janus to be ready ")
+	for range time.Tick(time.Second) {
+		if err := ctx.Err(); err != nil {
+			fmt.Fprintf(os.Stderr, "\nerror: %v\n", err)
+			os.Exit(1)
+		}
+
+		if isReady() {
+			fmt.Printf("\n")
+			return
+		}
+
+		fmt.Printf(".")
+	}
+}
+
+func isReady() bool {
+	if _, err := client.Execute(gremlin.New().Raw("1 + 1")); err != nil {
+		return false
+	}
+
+	return true
 }

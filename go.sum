@@ -19,10 +19,16 @@ github.com/coreos/etcd v3.3.11+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc
 github.com/coreos/go-semver v0.2.0/go.mod h1:nnelYz7RCh+5ahJtPPxZlU+153eP4D4r3EedlOD2RNk=
 github.com/coreos/go-systemd v0.0.0-20181031085051-9002847aa142/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
 github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f/go.mod h1:E3G3o1h8I7cfcXa63jLwjI0eiQQMgzzUDFVpN/nH/eA=
+github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-143dae290ce222872d6dc418534b697cad00f771 h1:5phK2O6TGa0y20a3QThM8HcSto7GxAcCADfSfVH6M/U=
+github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-143dae290ce222872d6dc418534b697cad00f771/go.mod h1:hypDk3b5i2LYvJk3U+/Is8q3yb23yel3RRiYEksK/50=
 github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-4f29b4d47fd7 h1:qjPyQ8C9dq3/pwWg+5X3s6rIL0clDStcNL0CQEFyioc=
 github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-4f29b4d47fd7/go.mod h1:hypDk3b5i2LYvJk3U+/Is8q3yb23yel3RRiYEksK/50=
+github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-54ca99a17438c9fa31e5fc81759d81defd3842f1 h1:bacnn4C2OlUTLUjfy5CTKZB3N15UzzgtiMeMXvbMOCo=
+github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-54ca99a17438c9fa31e5fc81759d81defd3842f1/go.mod h1:hypDk3b5i2LYvJk3U+/Is8q3yb23yel3RRiYEksK/50=
 github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-7c757b0203e66d7c6e96f071f46cc8e054070f83 h1:eBti51ooOvnyV/1hd7rAzjBcQ2bkRzOL00j2RfnBJw8=
 github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-7c757b0203e66d7c6e96f071f46cc8e054070f83/go.mod h1:hypDk3b5i2LYvJk3U+/Is8q3yb23yel3RRiYEksK/50=
+github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-ee6b8ba06996cb454ada5a21ff81fb0fa8101a33 h1:BPIoTkKmu2Ptlhw9hNqBTrsRTParN7EAr9ikxHJNWyA=
+github.com/creativesoftwarefdn/weaviate v0.0.0-20190304205250-ee6b8ba06996cb454ada5a21ff81fb0fa8101a33/go.mod h1:hypDk3b5i2LYvJk3U+/Is8q3yb23yel3RRiYEksK/50=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/docker/go-units v0.3.3/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
