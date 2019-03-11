@@ -9,11 +9,13 @@ public class Result {
     private String id;
     private Status status;
     private Object result;
+    private Object originalQuery;
 
-    public Result(String id, Status status, Object result) {
+    public Result(String id, Status status, Object result, Object originalQuery) {
         this.id = id;
         this.status = status;
         this.result = result;
+        this.originalQuery = originalQuery;
     }
 
     public String toJson() throws IOException {
@@ -33,6 +35,10 @@ public class Result {
 
     public Object getResult() {
         return this.result;
+    }
+
+    public Object getOriginalQuery() {
+        return this.originalQuery;
     }
 }
 

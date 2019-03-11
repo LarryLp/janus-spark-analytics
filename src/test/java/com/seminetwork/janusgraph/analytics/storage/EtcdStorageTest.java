@@ -30,7 +30,7 @@ public class EtcdStorageTest {
                 .willReturn(aResponse().withStatus(200)));
 
 
-        Result result = new Result("some-id", Status.INPROGRESS, null);
+        Result result = new Result("some-id", Status.INPROGRESS, null, "some-query");
 
         final Client client = new JerseyClientBuilder().build();
         Storage storage = new EtcdStorage(client, config);
@@ -38,7 +38,7 @@ public class EtcdStorageTest {
 
         String expectedBody = "{" +
                 "  \"key\" : \"c29tZS1pZA==\"," +
-                "  \"value\" : \"eyJpZCI6InNvbWUtaWQiLCJzdGF0dXMiOiJJTlBST0dSRVNTIiwicmVzdWx0IjpudWxsfQ==\"" +
+                "  \"value\" : \"eyJpZCI6InNvbWUtaWQiLCJzdGF0dXMiOiJJTlBST0dSRVNTIiwicmVzdWx0IjpudWxsLCJvcmlnaW5hbFF1ZXJ5Ijoic29tZS1xdWVyeSJ9\"" +
                 "}";
 
         verify(postRequestedFor(urlPathEqualTo("/v3alpha/kv/put"))

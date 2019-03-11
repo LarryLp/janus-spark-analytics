@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class ResultTest {
     @Test
     public void testToJson() throws IOException {
-        String res = new Result("foo", Status.INPROGRESS, null).toJson();
-        assertEquals("{\"id\":\"foo\",\"status\":\"INPROGRESS\",\"result\":null}", res);
+        String res = new Result("foo", Status.INPROGRESS, null, "some-query").toJson();
+        assertEquals("{\"id\":\"foo\",\"status\":\"INPROGRESS\",\"result\":null,\"originalQuery\":\"some-query\"}", res);
     }
 }

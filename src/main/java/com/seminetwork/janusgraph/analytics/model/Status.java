@@ -5,5 +5,5 @@ public enum Status {
 
     FAILED,
 
-    SUCCEDED
+    SUCCEEDED
 }

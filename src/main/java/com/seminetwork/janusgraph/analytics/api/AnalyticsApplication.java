@@ -35,6 +35,8 @@ public class AnalyticsApplication extends Application<AnalyticsConfiguration> {
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClientConfiguration())
                 .build(getName());
 
+
+
         this.storage = new EtcdStorage(client, configuration.getEtcdStorageConfiguration());
         this.computer = new SparkComputer(configuration.getGraphConfigPath());
         final AnalyticsResource resource = new AnalyticsResource(this.computer, this.storage);
