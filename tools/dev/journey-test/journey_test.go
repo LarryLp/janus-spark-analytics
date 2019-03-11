@@ -9,6 +9,7 @@ import (
 	client "github.com/SeMI-network/janus-spark-analytics/clients/go"
 	"github.com/coreos/etcd/clientv3"
 	uuid "github.com/satori/go.uuid"
+	"github.com/stretchr/testify/assert"
 )
 
 const testQuery = `
@@ -27,10 +28,22 @@ const testQuery = `
 			mean().project("networthMean"),
 			sum().project("networthSum")
 		), 
-		groupCount().by("name").order(local).by(values, decr).limit(local, 3)
 	)`
 
 var sparkJobMustCompleteWithin = 240 * time.Second
+
+var expectedResult = []interface{}{
+	map[string]interface{}{"ageMax": float64(59)},
+	map[string]interface{}{"networthMin": float64(10000)},
+	map[string]interface{}{"networthSum": float64(2.11e+06)},
+	map[string]interface{}{"ageMin": float64(23)},
+	map[string]interface{}{"networthCount": float64(4)},
+	map[string]interface{}{"ageCount": float64(4)},
+	map[string]interface{}{"ageMean": float64(42)},
+	map[string]interface{}{"networthMax": float64(1e+06)},
+	map[string]interface{}{"ageSum": float64(168)},
+	map[string]interface{}{"networthMean": float64(527500)},
+}
 
 func TestAnalyticsAPI(t *testing.T) {
 	u, _ := url.Parse("http://localhost:6080")
@@ -66,6 +79,7 @@ func TestAnalyticsAPI(t *testing.T) {
 			}
 
 			if res.Status == client.StatusSucceeded {
+				assert.ElementsMatch(t, expectedResult, res.Result, "should match the expected results on success")
 				return
 			}
 		}
