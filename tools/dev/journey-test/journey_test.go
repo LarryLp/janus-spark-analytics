@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	client "github.com/SeMI-network/janus-spark-analytics/clients/go"
+	client "github.com/semi-technologies/janus-spark-analytics/clients/go"
 	"github.com/coreos/etcd/clientv3"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"

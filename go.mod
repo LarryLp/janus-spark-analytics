@@ -1,4 +1,4 @@
-module github.com/SeMI-network/janus-spark-analytics
+module github.com/semi-technologies/janus-spark-analytics
 
 require (
 	github.com/coreos/etcd v3.3.11+incompatible
