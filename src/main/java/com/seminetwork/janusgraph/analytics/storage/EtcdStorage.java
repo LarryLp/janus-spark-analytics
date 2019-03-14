@@ -8,7 +8,9 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 
+
 public class EtcdStorage implements Storage {
+    private static final String KEY_PREFIX = "/weaviate/janusgraph-connector/analytics-cache/";
     private Client client;
     private EtcdStorageConfiguration config;
 
@@ -32,7 +34,7 @@ public class EtcdStorage implements Storage {
     public void store(Result res) throws StorageException {
         try {
             String resJson = res.toJson();
-            String body = new EtcdHttpRequest(res.getId(), resJson).toJson();
+            String body = new EtcdHttpRequest(KEY_PREFIX + res.getId(), resJson).toJson();
             post(body);
         } catch (IOException e) {
             throw new StorageException("could not build json body to send to etcd", e);

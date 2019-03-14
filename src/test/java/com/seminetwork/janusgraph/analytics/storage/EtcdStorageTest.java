@@ -37,7 +37,7 @@ public class EtcdStorageTest {
         storage.store(result);
 
         String expectedBody = "{" +
-                "  \"key\" : \"c29tZS1pZA==\"," +
+                "  \"key\" : \"L3dlYXZpYXRlL2phbnVzZ3JhcGgtY29ubmVjdG9yL2FuYWx5dGljcy1jYWNoZS9zb21lLWlk\"," +
                 "  \"value\" : \"eyJpZCI6InNvbWUtaWQiLCJzdGF0dXMiOiJJTlBST0dSRVNTIiwicmVzdWx0IjpudWxsLCJvcmlnaW5hbFF1ZXJ5Ijoic29tZS1xdWVyeSJ9\"" +
                 "}";
 
