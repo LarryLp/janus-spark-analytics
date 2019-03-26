@@ -5,7 +5,7 @@ jobs:
   include:
     - stage: build docker image
       script:
-        - docker build .
+        - docker build --target app .
     - stage: test
       script:
         - ./ci_journey.sh
@@ -13,6 +13,6 @@ jobs:
       if: 'tag IS present'
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker build -t creativesoftwarefdn/janus-spark-analytics
+        - docker build -t creativesoftwarefdn/janus-spark-analytics --target app .
         - docker push creativesoftwarefdn/janus-spark-analytics
  
