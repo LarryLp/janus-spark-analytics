@@ -5,7 +5,7 @@ jobs:
   include:
     - stage: build docker image
       script:
-        - docker build --target app .
+        - docker build .
     - stage: test
       script:
         - ./ci_journey.sh
