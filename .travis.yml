@@ -1,5 +1,18 @@
-services:
-  - docker
+sudo: true
+dist: trusty
 
-script:
-- ./ci_journey.sh
+jobs:
+  include:
+    - stage: build docker image
+      script:
+        - docker build .
+    - stage: test
+      script:
+        - ./ci_journey.sh
+    - stage: push docker image
+      if: 'tag IS present'
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build -t creativesoftwarefdn/janus-spark-analytics
+        - docker push creativesoftwarefdn/janus-spark-analytics
+ 
